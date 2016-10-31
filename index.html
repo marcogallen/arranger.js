@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arranger.js</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="js/handlebars-v4.0.5.js"></script>
+    <script src="js/Arranger.js"></script>
+</head>
+<body>
+<h1>Simple json loader</h1>
+    <div id="container">
+    </div>
+    
+<!-- Template para items individuales -->
+<script type="text/x-handlebars-template" id="usuario-template">
+<div class="usuario_individual">
+    <h1>Nombre: {{name}}</h1>
+    <h3>Correo: {{email}}</h3>
+    <dl>
+        <dt>Nombre de la empresa: {{company.name}}</dt>
+        <dd>Giro: {{company.catchPhrase}}</dd>
+    </dl>
+</div>
+</script>
+<script type="text/javascript">
+//Creamos una fuente para handlebars
+    var source = $("#usuario-template").html();
+    var template = Handlebars.compile(source);
+    //var arranger = Arranger;
+    
+    var html = "";
+    
+    $.ajax({
+        url: "users.json",
+        success: function(data){
+            Arranger.load(data);
+            console.log(Arranger.getKeys());
+            for(var i = 0; i < data.length; i++){
+                var user = data[i];
+                html += template(user);
+            }
+            $("#container").html(html);
+            
+        }
+    });
+    
+</script>
+</body>
+</html>
